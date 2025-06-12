@@ -1,0 +1,5 @@
+streamlit==1.42.0  # Or a more recent version if compatible
+google-genai
+regex
+Pillow
+firebase-admin
