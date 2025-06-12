@@ -254,22 +254,22 @@ def main():
 
     # Document selection dropdown
     document_options = {
-        "My-Claim-Document": "gs://hdfc-ergo-motor-claim-analysis/your_claim.pdf",
-        "Claim-1001-Gujarati-Judgement": "gs://hdfc-ergo-motor-claim-analysis/GUJARATI_JUDGEMENT_SCAN_COPY.pdf",
-        "Claim-1002-Bengali-FIR": "gs://hdfc-ergo-motor-claim-analysis/Bengali_Certified_FIR.pdf",
-        "Claim-1003-Tamil-Statement": "gs://hdfc-ergo-motor-claim-analysis/TAMIL_STATEMENT.pdf",
-        "Claim-1004-Tamil-FIR": "gs://hdfc-ergo-motor-claim-analysis/TAMIL_FIR.pdf",
-        "Claim-1005-Bengali-Witness": "gs://hdfc-ergo-motor-claim-analysis/Bengali_161_Witness_Statements.pdf",
-        "Claim-1006-Marathi-Petition": "gs://hdfc-ergo-motor-claim-analysis/Marathi_Petition.pdf",
-        "Claim-1007-English-Petition": "gs://hdfc-ergo-motor-claim-analysis/English_Petition.pdf",
+        "My-Claim-Document": "gs://tp-ergo-motor-claim-analysis/your_claim.pdf",
+        "Claim-1001-Gujarati-Judgement": "gs://tp-ergo-motor-claim-analysis/GUJARATI_JUDGEMENT_SCAN_COPY.pdf",
+        "Claim-1002-Bengali-FIR": "gs://tp-ergo-motor-claim-analysis/Bengali_Certified_FIR.pdf",
+        "Claim-1003-Tamil-Statement": "gs://tp-ergo-motor-claim-analysis/TAMIL_STATEMENT.pdf",
+        "Claim-1004-Tamil-FIR": "gs://tp-ergo-motor-claim-analysis/TAMIL_FIR.pdf",
+        "Claim-1005-Bengali-Witness": "gs://tp-ergo-motor-claim-analysis/Bengali_161_Witness_Statements.pdf",
+        "Claim-1006-Marathi-Petition": "gs://tp-ergo-motor-claim-analysis/Marathi_Petition.pdf",
+        "Claim-1007-English-Petition": "gs://tp-ergo-motor-claim-analysis/English_Petition.pdf",
     }
 
     uploaded_file = st.file_uploader("Upload Your Claim Document", type=["pdf"])
 
     selected_document = st.selectbox("Select Your Claim or Sample Claim", list(document_options.keys()))
     doc_uri = document_options[selected_document]
-    bucket_name = "hdfc-ergo-motor-claim-analysis"
-    source_blob_name = doc_uri.replace("gs://hdfc-ergo-motor-claim-analysis/", "")
+    bucket_name = "tp-ergo-motor-claim-analysis"
+    source_blob_name = doc_uri.replace("gs://tp-ergo-motor-claim-analysis/", "")
     destination_file_name = source_blob_name
 
     col1, col2, col3 = st.columns(3)
