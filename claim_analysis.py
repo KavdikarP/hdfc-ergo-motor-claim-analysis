@@ -18,7 +18,7 @@ def format_markdown_json(json_string):
 
 client = genai.Client(
       vertexai=True,
-      project="ccinsights3",
+      project="deft-clarity-461011-c7",
       location="us-central1"
   )
 

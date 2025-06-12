@@ -3,7 +3,7 @@
 # cd $(dirname $0)/..
 
 # Variables
-export PROJECT_ID=ccinsights3
+export PROJECT_ID=deft-clarity-461011-c7
 export CLOUDRUN_SERVICE_NAME=hdfc-ergo-claim-analysis
 export CLOUDRUN_SERVICE_IMAGE_NAME=us-central1-docker.pkg.dev/$PROJECT_ID/$CLOUDRUN_SERVICE_NAME/$CLOUDRUN_SERVICE_NAME:latest
 
