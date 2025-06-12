@@ -19,7 +19,7 @@ def format_markdown_json(json_string):
 client = genai.Client(
       vertexai=True,
       project="deft-clarity-461011-c7",
-      location="global",
+      location="us-central1"
   )
 
 def generate_analysis(doc_analysed):
@@ -98,7 +98,7 @@ OUTPUT:
 }
 ```""")
 
-  model = "gemini-2.0-flash-001"
+  model = "gemini-2.0-flash-exp"
   contents = [
     types.Content(
       role="user",
