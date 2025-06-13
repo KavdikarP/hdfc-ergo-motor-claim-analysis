@@ -255,13 +255,9 @@ def main():
     # Document selection dropdown
     document_options = {
         "My-Claim-Document": "gs://tp-ergo-motor-claim-analysis/your_claim.pdf",
-        "Claim-1001-Gujarati-Judgement": "gs://tp-ergo-motor-claim-analysis/GUJARATI_JUDGEMENT_SCAN_COPY.pdf",
-        "Claim-1002-Bengali-FIR": "gs://tp-ergo-motor-claim-analysis/Bengali_Certified_FIR.pdf",
-        "Claim-1003-Tamil-Statement": "gs://tp-ergo-motor-claim-analysis/TAMIL_STATEMENT.pdf",
-        "Claim-1004-Tamil-FIR": "gs://tp-ergo-motor-claim-analysis/TAMIL_FIR.pdf",
-        "Claim-1005-Bengali-Witness": "gs://tp-ergo-motor-claim-analysis/Bengali_161_Witness_Statements.pdf",
-        "Claim-1006-Marathi-Petition": "gs://tp-ergo-motor-claim-analysis/Marathi_Petition.pdf",
-        "Claim-1007-English-Petition": "gs://tp-ergo-motor-claim-analysis/English_Petition.pdf",
+        "Claim-1001-Bengali-FIR": "gs://tp-ergo-motor-claim-analysis/Bengali_Certified_FIR.pdf",
+        "Claim-1002-Marathi-Petition": "gs://tp-ergo-motor-claim-analysis/Marathi_Petition.pdf",
+        "Claim-1003-English-Petition": "gs://tp-ergo-motor-claim-analysis/English_Petition.pdf",
     }
 
     uploaded_file = st.file_uploader("Upload Your Claim Document", type=["pdf"])
