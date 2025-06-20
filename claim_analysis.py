@@ -18,7 +18,7 @@ def format_markdown_json(json_string):
 
 client = genai.Client(
       vertexai=True,
-      project="deft-clarity-461011-c7",
+      project="prj-genai-sandboxc3", #project="deft-clarity-461011-c7",
       location="global",
   )
 
@@ -98,7 +98,7 @@ OUTPUT:
 }
 ```""")
 
-  model = "gemini-2.0-flash-001"
+  model = "gemini-2.0-flash-001" #model = "gemini-2.5-flash"
   contents = [
     types.Content(
       role="user",
@@ -254,18 +254,21 @@ def main():
 
     # Document selection dropdown
     document_options = {
-        "My-Claim-Document": "gs://tp-ergo-motor-claim-analysis/your_claim.pdf",
-        "Claim-1001-Bengali-FIR": "gs://tp-ergo-motor-claim-analysis/Bengali_Certified_FIR.pdf",
-        "Claim-1002-Marathi-Petition": "gs://tp-ergo-motor-claim-analysis/Marathi_Petition.pdf",
-        "Claim-1003-English-Petition": "gs://tp-ergo-motor-claim-analysis/English_Petition.pdf",
-    }
+        "My-Claim-Document": "gs://tp-motor-claim-analysis/your_claim.pdf",
+        "Claim-1001-C230015081676-Marathi-Judgement": "gs://tp-motor-claim-analysis/C230015081676-Marathi-Judgement.pdf",
+        "Claim-1002-C230015139525-Hindi-Judgement": "gs://tp-motor-claim-analysis/C230015139525-Hindi-Judgement.pdf",
+        "Claim-1003-C2300220420191986-English-Judgement": "gs://tp-motor-claim-analysis/English_Petition.pdf",
+        "Claim-1004-Bengali-FIR": "gs://tp-motor-claim-analysis/Bengali_FIR.pdf",
+        "Claim-1005-Tamil-FIR": "gs://tp-motor-claim-analysis/Marathi_Petition.pdf",
+        "Claim-1006-Gujarati-OrderCopy": "gs://tp-motor-claim-analysis/Gujarati-OrderCopy.pdf",
+}
 
     uploaded_file = st.file_uploader("Upload Your Claim Document", type=["pdf"])
 
     selected_document = st.selectbox("Select Your Claim or Sample Claim", list(document_options.keys()))
     doc_uri = document_options[selected_document]
-    bucket_name = "tp-ergo-motor-claim-analysis"
-    source_blob_name = doc_uri.replace("gs://tp-ergo-motor-claim-analysis/", "")
+    bucket_name = "tp-motor-claim-analysis"
+    source_blob_name = doc_uri.replace("gs://tp-motor-claim-analysis/", "")
     destination_file_name = source_blob_name
 
     col1, col2, col3 = st.columns(3)
