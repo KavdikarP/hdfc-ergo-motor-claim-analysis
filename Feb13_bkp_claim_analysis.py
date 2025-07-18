@@ -1,5 +1,4 @@
 import streamlit as st
-import requests
 from PIL import Image
 import sys
 import re
@@ -8,7 +7,6 @@ from google import genai
 from google.genai import types
 import base64
 import os
-from google.cloud import storage
 
 def format_markdown_json(json_string):
   response_text = re.sub(r"json", "", json_string)
@@ -18,8 +16,8 @@ def format_markdown_json(json_string):
 
 client = genai.Client(
       vertexai=True,
-      project="deft-clarity-461011-c7",
-      location="global",
+      project="ccinsights3",
+      location="us-central1"
   )
 
 def generate_analysis(doc_analysed):
@@ -98,7 +96,7 @@ OUTPUT:
 }
 ```""")
 
-  model = "gemini-2.0-flash-001"
+  model = "gemini-2.0-flash-exp"
   contents = [
     types.Content(
       role="user",
@@ -202,18 +200,6 @@ def upload_to_gcs(uploaded_file, bucket_name, destination_blob_name):
     """Uploads a file to the Google Cloud Storage bucket."""
     storage_client = storage.Client()
     bucket = storage_client.bucket(bucket_name)
-    bucket.cors = [
-      {
-          "origin": ["*"],
-          "responseHeader": [
-              "Content-Type",
-              "x-goog-resumable"],
-          "method": ['PUT', 'POST', 'GET', 'OPTIONS'],
-          "maxAgeSeconds": 3600
-      }
-    ]
-    bucket.patch()
-    print(f"Set CORS policies for bucket {bucket.name} is {bucket.cors}")
     blob = bucket.blob(destination_blob_name)
     try:
         blob.upload_from_file(uploaded_file)
@@ -254,33 +240,28 @@ def main():
 
     # Document selection dropdown
     document_options = {
-        "My-Claim-Document": "gs://tp-ergo-motor-claim-analysis/your_claim.pdf",
-        "Claim-1001-Bengali-FIR": "gs://tp-ergo-motor-claim-analysis/Bengali_Certified_FIR.pdf",
-        "Claim-1002-Marathi-Petition": "gs://tp-ergo-motor-claim-analysis/Marathi_Petition.pdf",
-        "Claim-1003-English-Petition": "gs://tp-ergo-motor-claim-analysis/English_Petition.pdf",
+        "Claim-1001-Gujarati-Judgement": "gs://hdfc-ergo-motor-claim-analysis/GUJARATI_JUDGEMENT_SCAN_COPY.pdf",
+        "Claim-1002-Bengali-FIR": "gs://hdfc-ergo-motor-claim-analysis/Bengali_Certified_FIR.pdf",
+        "Claim-1003-Tamil-Statement": "gs://hdfc-ergo-motor-claim-analysis/TAMIL_STATEMENT.pdf",
+        "Claim-1004-Tamil-FIR": "gs://hdfc-ergo-motor-claim-analysis/TAMIL_FIR.pdf",
+        "Claim-1005-Bengali-Witness": "gs://hdfc-ergo-motor-claim-analysis/Bengali_161_Witness_Statements.pdf",
     }
 
-    uploaded_file = st.file_uploader("Upload Your Claim Document", type=["pdf"])
+    selected_document = st.selectbox("Select Claim Number", list(document_options.keys()))
 
-    selected_document = st.selectbox("Select Your Claim or Sample Claim", list(document_options.keys()))
-    doc_uri = document_options[selected_document]
-    bucket_name = "tp-ergo-motor-claim-analysis"
-    source_blob_name = doc_uri.replace("gs://tp-ergo-motor-claim-analysis/", "")
-    destination_file_name = source_blob_name
+    if st.button("Analyze"):
+        try:
+          doc_uri = document_options[selected_document]
+          analysis_result = generate_analysis(doc_uri)
+          content_compliance_json = format_markdown_json(analysis_result)  # Properly format JSON
 
-    col1, col2, col3 = st.columns(3)
-
-    if col1.button("Upload Your Document") and uploaded_file is not None:
-        upload_to_gcs(uploaded_file, bucket_name, "your_claim.pdf")
-
-    if col2.button("Analyze Document"):
-        analysis_result = generate_analysis(doc_uri)
-        if analysis_result:
-          content_compliance_json = format_markdown_json(analysis_result)
+          # Display the formatted JSON analysis
+          # st.subheader("Analysis Results:")
+          # st.json(content_compliance_json)
           display_json(content_compliance_json)
 
-    if col3.button("Download Document"):
-      download_file_from_gcs(bucket_name, source_blob_name, destination_file_name)
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     main()
